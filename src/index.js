@@ -2,45 +2,56 @@ import './css/styles.css';
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
-import { getImages } from './getImages';
+import GetImagesApiService from './getImagesApiService';
 
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
+const btnEl = document.querySelector('.load-more-btn');
 
-formEl.addEventListener('submit', onFormSubmit);
+const getImagesApiService = new GetImagesApiService();
 
-function onFormSubmit(e) { 
+formEl.addEventListener('submit', onSearch);
+btnEl.addEventListener('click', onLoad);
+
+function onSearch(e) { 
     e.preventDefault();
 
-    const request = e.currentTarget.elements.searchQuery.value.trim();
+    getImagesApiService.req = e.currentTarget.elements.searchQuery.value.trim();
     galleryEl.innerHTML = '';
-    
-    if (request !== '') {
-        getImages(request)
-        .then(onGetSucces)
-        .catch(onGetError);
-    };
+
+    if (getImagesApiService.req == '') {
+        return Notiflix.Notify.failure("Please, enter something!");
+    }
+
+    getImagesApiService.resetPage();
+    getImagesApiService.getImages().then(onGetSucces);
 };
 
-
-function onGetSucces(data) {
-    console.log(data.data.hits);
-    galleryEl.insertAdjacentHTML('beforeend', createsGalleryItemsMarkup(data.data.hits));
-    lightbox.refresh();  
+function onLoad() {
+    getImagesApiService.getImages().then(onGetSucces);
 }
 
+function onGetSucces(hits) {
+        console.log(hits);
+        if (hits.length === 0) {
+        return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+    }
+    
+        galleryEl.insertAdjacentHTML('beforeend', createGalleryItemsMarkup(hits));
+        lightbox.refresh();  
+    }
+
 function onGetError(error) {
-    console.log(error);
+        console.log(error);
     // if (response.data.total === 0) {
     //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
     //   }
     
-}
+    }
 
-
-function createsGalleryItemsMarkup(data) {
-    return data.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+function createGalleryItemsMarkup(hits) {
+    return hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `
         <div class="photo-card">
            <a href="${largeImageURL}"> 
@@ -67,7 +78,7 @@ function createsGalleryItemsMarkup(data) {
         </div>
         `
     } ).join('');
-};
+    };
 
 var lightbox = new SimpleLightbox('.photo-card a', {
     captions: true,

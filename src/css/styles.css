@@ -18,11 +18,19 @@ img {
 }
 
 .form {
-    height: 40px;
+    height: 50px;
     padding-top: 10px;
     margin-bottom: 20px;
-    background-color: rgb(49, 49, 197);
+    background-color: rgb(9, 107, 255);
     text-align: center;
+}
+
+.search-form__input {
+    width: 200px;
+    height: 30px;
+
+    border: 1px outset aliceblue;
+    border-radius: 3px;
 }
 
 .gallery {
@@ -36,6 +44,7 @@ img {
     flex-basis: calc(100% / 4 - 10px);
     margin-top: 10px;
     margin-left: 10px;
+    border-radius: 3px;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
             0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
@@ -54,4 +63,33 @@ img {
 
 .info-item {
     text-align: center;
-} 
+}
+
+.button {
+    cursor: pointer;
+
+    width: 100px;
+    height: 30px;
+
+    border: 1px outset aliceblue;
+    border-radius: 3px;
+}
+
+.load-more-btn {
+    display: block;
+    margin: 20px auto;
+
+    background-color:rgb(9, 107, 255);
+    color: aliceblue;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
+}
