@@ -21,37 +21,37 @@ function onSearch(e) {
     galleryEl.innerHTML = '';
 
     if (getImagesApiService.req == '') {
+        btnEl.classList.add('visually-hidden');
         return Notiflix.Notify.failure("Please, enter something!");
     }
 
     getImagesApiService.resetPage();
-    getImagesApiService.getImages().then(onGetSucces);
+    getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
 };
 
 function onLoad() {
-    getImagesApiService.getImages().then(onGetSucces);
-}
+    getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
+};
 
-function onGetSucces(hits) {
-        console.log(hits);
-        if (hits.length === 0) {
+function onGetSucces(data) {
+    if (data.hits.length === 0) {
+        btnEl.classList.add('visually-hidden');
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
     }
     
-        galleryEl.insertAdjacentHTML('beforeend', createGalleryItemsMarkup(hits));
-        lightbox.refresh();  
-    }
+    galleryEl.insertAdjacentHTML('beforeend', createGalleryItemsMarkup(data));
+    btnEl.classList.remove('visually-hidden');
+    lightbox.refresh();  
+};
 
 function onGetError(error) {
-        console.log(error);
-    // if (response.data.total === 0) {
-    //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-    //   }
-    
-    }
+    console.log(error);
+    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+    btnEl.classList.add('visually-hidden');
+};
 
-function createGalleryItemsMarkup(hits) {
-    return hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+function createGalleryItemsMarkup(data) {
+    return data.hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `
         <div class="photo-card">
            <a href="${largeImageURL}"> 
@@ -78,7 +78,7 @@ function createGalleryItemsMarkup(hits) {
         </div>
         `
     } ).join('');
-    };
+};
 
 var lightbox = new SimpleLightbox('.photo-card a', {
     captions: true,

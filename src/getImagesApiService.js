@@ -14,9 +14,9 @@ export default class getImagesApiService {
         const url = `https://pixabay.com/api/?key=27640726-9b55f8bbb95505cb3dfdadc58&q=${this.request}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
         return axios(url)
-            .then(data => {
+            .then(({data}) => {
                 this.incrementPage();
-                return data.data.hits;
+                return data;
             });
          
     }
