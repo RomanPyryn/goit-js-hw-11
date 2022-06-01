@@ -1,0 +1,57 @@
+html {
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.form {
+    height: 40px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    background-color: rgb(49, 49, 197);
+    text-align: center;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * 10px);
+    margin-left: calc(-1 * 10px);
+}
+
+.photo-card {
+    flex-basis: calc(100% / 4 - 10px);
+    margin-top: 10px;
+    margin-left: 10px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.cover {
+    height: 80%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.info-item {
+    text-align: center;
+} 
