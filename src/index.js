@@ -51,11 +51,12 @@ function onGetSucces(data) {
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
     }
 
-    console.log(data);
+    
     
     galleryEl.insertAdjacentHTML('beforeend', createGalleryItemsMarkup(data));
     btnEl.classList.remove('visually-hidden');
-    lightbox.refresh();  
+    lightbox.refresh();
+    Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 };
 
 function onGetError(error) {
