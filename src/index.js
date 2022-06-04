@@ -26,18 +26,32 @@ function onSearch(e) {
     }
 
     getImagesApiService.resetPage();
-    getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
+    // getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
+    gettingImages()
 };
 
 function onLoad() {
-    getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
+    // getImagesApiService.getImages().then(onGetSucces).catch(onGetError);
+    gettingImages()
 };
+
+async function gettingImages() {
+    try {
+        const images = await getImagesApiService.getImages();
+        onGetSucces(images);
+    } catch (error) {
+        onGetError();
+    console.log(error.message);
+  }
+}
 
 function onGetSucces(data) {
     if (data.hits.length === 0) {
         btnEl.classList.add('visually-hidden');
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
     }
+
+    console.log(data);
     
     galleryEl.insertAdjacentHTML('beforeend', createGalleryItemsMarkup(data));
     btnEl.classList.remove('visually-hidden');
